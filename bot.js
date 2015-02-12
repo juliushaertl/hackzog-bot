@@ -29,6 +29,12 @@ module.exports = {
 			users = nicks;
 		});
 		bot.addListener("message", function(nick, to, text, message) {
+			if(text=="!help") {
+				module.exports.respond(message, "!in      show active users");
+				module.exports.respond(message, "!top     show top scores");
+				module.exports.respond(message, "name +1  increment score for user");
+				return;
+			}
 			for(var i=0; i<plugins.length; i++) {
 				if(plugins[i][0](nick, to, text, message)) {
 					plugins[i][1](nick, to, text, message);
