@@ -13,7 +13,7 @@ module.exports = {
 	connect: function() {
 
 		bot = new irc.Client(this.config.server, this.config.user, {
-			channels: this.config.channels,
+			channels: [this.config.channel],
 			autoConnect: false,
 		});
 
@@ -67,11 +67,13 @@ module.exports = {
 	addListener: function(type, callback) {
 		bot.addListener(type, callback);
 	},
-
-	say: function(channel, message) {
-		bot.say(channel, message);
+	
+	/* Let the bot say something in the public channel */
+	say: function(message) {
+		bot.say(this.config.channel, message);
 	},
 
+	/* Let the bot respond to a message public or private */
 	respond: function(message, response) {
 		var returnpath = helpers.findReturnPath(message);
 		bot.say(returnpath, response);

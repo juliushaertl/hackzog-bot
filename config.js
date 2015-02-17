@@ -1,5 +1,5 @@
 var config = {
-	channels: ['#hackzogtumCoburg'],
+	channel: '#hackzogtumCoburg',
 	server: 'irc.freenode.net',
 	user: 'hackzog',
 	user_password: '',

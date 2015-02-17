@@ -4,7 +4,7 @@ module.exports = {
 	findReturnPath: function (message) {
 
 		var return_path = message['args'][0];
-		if(return_path == config.name)
+		if(return_path == config.user)
 			return_path = message['nick'];
 
 		return return_path;
