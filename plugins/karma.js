@@ -32,6 +32,7 @@ var karmaHandlerIncrement = function(nick, to, text, message) {
 			}
 
 			bot.say(nick + " gave +1 to '" + name + "'");
+			console.log(nick + " gave +1 to '" + name + "'");
 			client.hincrby("hackzog-karma",name,1);
 
 		}
