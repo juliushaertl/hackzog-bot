@@ -71,8 +71,12 @@ module.exports = {
 	register: function(b) {
 		bot = b;
 		bot.addMessageAction(function(nick, to, text, message){
-			if(text.indexOf("+1") == -1)
+			if(text.indexOf("+1") == -1) {
 				return false;
+            }
+            if(!/(^|\s)\+1/g.test(text)) {
+                return false;
+            }
 			return true;
 		}, karmaHandlerIncrement);
 		bot.addMessageAction(function(nick, to, text, message){
