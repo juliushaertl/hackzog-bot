@@ -67,6 +67,30 @@ var karmaHandlerTop = function(nick, to, text, message) {
 
 };
 
+// !karma [user] command
+// Show karma of a user
+var karmaHandlerGet = function(nick, to, text, message) {
+	client.hkeys("hackzog-karma", function(err,object) {
+		var accepted_names = object.concat(Object.keys(bot.names()));
+		var names = text.split(" ").remove("!karma");
+		for(var i=0; i<names.length;i++) {
+
+			name = names[i].replace(/\:+/g, '').replace(/\ +/g, '');
+			if(!name || name.length === 0)
+				break;
+			if(accepted_names.indexOf(name) == -1) {
+				bot.respond(message, "No user " + name + " in here!");
+				break;
+			}
+
+            client.hget("hackzog-karma", name, function(err, object) {
+                karma = object;
+                bot.respond(message, name + " has " + karma + " karma!");
+            });
+        }
+	});
+};
+
 module.exports = {
 	register: function(b) {
 		bot = b;
@@ -84,6 +108,11 @@ module.exports = {
 				return false;
 			return true;
 		}, karmaHandlerTop);
+		bot.addMessageAction(function(nick, to, text, message){
+			if(text.indexOf("!karma") == -1)
+				return false;
+			return true;
+		}, karmaHandlerGet);
 
 
 	},
