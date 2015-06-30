@@ -6,7 +6,7 @@ var helpers = require("../helpers");
 var bot = null;
 
 client.on("error", function (err) {
-	console.log("Error " + err);
+	console.log("[hackzog-bot] redis error " + err);
 });
 
 // +1 command
@@ -32,7 +32,7 @@ var karmaHandlerIncrement = function(nick, to, text, message) {
 			}
 
 			bot.say(nick + " gave +1 to '" + name + "'");
-			console.log(nick + " gave +1 to '" + name + "'");
+			console.log("[hackzog-bot] " +nick + " gave +1 to '" + name + "'");
 			client.hincrby("hackzog-karma",name,1);
 
 		}
@@ -83,11 +83,11 @@ var karmaHandlerGet = function(nick, to, text, message) {
 				break;
 			}
 
-            client.hget("hackzog-karma", name, function(err, object) {
-                karma = object;
-                bot.respond(message, name + " has " + karma + " karma!");
-            });
-        }
+			client.hget("hackzog-karma", name, function(err, object) {
+				karma = object;
+				bot.respond(message, name + " has " + karma + " karma!");
+			});
+		}
 	});
 };
 
@@ -97,10 +97,10 @@ module.exports = {
 		bot.addMessageAction(function(nick, to, text, message){
 			if(text.indexOf("+1") == -1) {
 				return false;
-            }
-            if(!/(^|\s)\+1/g.test(text)) {
-                return false;
-            }
+			}
+			if(!/(^|\s)\+1/g.test(text)) {
+				return false;
+			}
 			return true;
 		}, karmaHandlerIncrement);
 		bot.addMessageAction(function(nick, to, text, message){
