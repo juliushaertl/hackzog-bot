@@ -23,7 +23,7 @@ var karmaHandlerIncrement = function(nick, to, text, message) {
 			if(!name || name.length === 0)
 				break;
 			if(accepted_names.indexOf(name) == -1) {
-				bot.respond(message, "No user " + name + " in here!");
+				//bot.respond(message, "No user " + name + " in here!");
 				break;
 			}
 			if(nick == name) {
@@ -104,7 +104,7 @@ module.exports = {
 			return true;
 		}, karmaHandlerIncrement);
 		bot.addMessageAction(function(nick, to, text, message){
-			if(text.indexOf("!top") == -1)
+			if(text!="!top")
 				return false;
 			return true;
 		}, karmaHandlerTop);
