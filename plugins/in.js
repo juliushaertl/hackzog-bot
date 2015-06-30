@@ -31,21 +31,23 @@ var setOpenState = function() {
 	if(open == open_old && !initial_set)
 		return;
 	if(open) {
-		bot.setTopic(" http://hackzogtum-coburg.de/  | Space OPEN | Anwesenheitsliste: http://in.hackzogtum-coburg.de/ ");
+		bot.plugins['topic'].addData('spacestatus', "OPEN");
 	} else {
-		bot.setTopic(" http://hackzogtum-coburg.de/  | Space CLOSED | Anwesenheitsliste: http://in.hackzogtum-coburg.de/ ");
+		bot.plugins['topic'].addData('spacestatus', "CLOSED");
 	}
 	initial_set = false;
+	bot.plugins['topic'].updateTopic();
 }
 
 var inHandler = function(nick, to, text, message) {
 
 	getApi();
 
-	if(api['count'] == 0)
-		bot.respond(message, "Nobody here!");
-	else
-		bot.respond(message, api['users'].join(', '));
+	if(typeof api !== 'undefined')
+		if(api['count'] == 0)
+			bot.respond(message, "Nobody here!");
+		else
+			bot.respond(message, api['users'].join(', '));
 
 };
 
@@ -54,6 +56,7 @@ module.exports = {
 
 		bot = b;
 
+		getApi();
 		setInterval(function() {
 			getApi();
 		}, 60*1000);
