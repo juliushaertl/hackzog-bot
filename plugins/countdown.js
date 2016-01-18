@@ -41,7 +41,7 @@ module.exports = {
 			updateCountdown();
 		});
 	},
-	updateCountdown: updateCountdown
+	updateCountdown: updateCountdown,
 	help: [
 		['!countdown', 'show countdown until $event in days'],
 	],
