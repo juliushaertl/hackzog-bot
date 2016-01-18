@@ -9,6 +9,12 @@ var active = false;
 module.exports = {
 
 	config: {
+
+	},
+	/* Let the bot respond to a message public or private */
+	respond: function(message, response) {
+		var returnpath = helpers.findReturnPath(message);
+		bot.say(returnpath, response);
 	},
 
 	// Connect to IRC server and identify with NickServ
@@ -32,12 +38,15 @@ module.exports = {
 		});
 		bot.addListener("message", function(nick, to, text, message) {
 			console.log("[hackzog-bot] message " +nick + " - " + to + ": " + text);
+			// this could also be a own plugin
 			if(text=="!help") {
-				module.exports.respond(message, "!countdown  show days until events");
-				module.exports.respond(message, "!in         show active users");
-				module.exports.respond(message, "!top        show top scores");
-				module.exports.respond(message, "!karma NAME show karma of a user");
-				module.exports.respond(message, "NAME +1     increment score for user");
+				for(var name in plugins) {
+					help = plugins[name].help;
+					for(var i=0; i<help.length; i++) {
+						helptext =  help[i][0] + "    " + help[i][1];
+						module.exports.respond(message, helptext);
+					}
+				}
 				return;
 			}
 			for(var i=0; i<plugin_actions.length; i++) {
@@ -49,12 +58,6 @@ module.exports = {
 		});
 
 	},
-
-	names: function() {
-		return users;
-	},
-
-		// Load plugins from array list
 	loadPlugins: function(plugins_load) {
 
 		for(var i = 0, len = plugins_load.length; i < len; i++) {
@@ -64,6 +67,11 @@ module.exports = {
 			console.log("[hackzog-bot] load plugin " + name);
 		}
 
+	},
+
+
+	names: function() {
+		return users;
 	},
 
 	addMessageAction: function(match, callback) {
@@ -79,11 +87,6 @@ module.exports = {
 		bot.say(this.config.channel, message);
 	},
 
-		/* Let the bot respond to a message public or private */
-	respond: function(message, response) {
-		var returnpath = helpers.findReturnPath(message);
-		bot.say(returnpath, response);
-	},
 
 	setTopic: function(text) {
 		console.log("[hackzog-bot] set topic: " + text);

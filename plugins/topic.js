@@ -34,5 +34,7 @@ module.exports = {
 	addData: function(key, value) {
 		console.log("[hackzog-bot] add data to topic " + key + " = " + value);
 		topic_data[key] = value;
-	}
+	},
+	help: [
+	],
 };

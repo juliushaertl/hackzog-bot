@@ -116,4 +116,9 @@ module.exports = {
 
 
 	},
+	help: [
+		['!karma USER', 'show karma of NICK'],
+		['!top', 'show karma top users'],
+		['NICK +1', 'give NICK karma'],
+	],
 };

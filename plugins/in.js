@@ -68,4 +68,7 @@ module.exports = {
 		}, inHandler);
 
 	},
+	help: [
+		['!in', 'show active users'],
+	],
 };

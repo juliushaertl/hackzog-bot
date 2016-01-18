@@ -23,4 +23,12 @@ Array.prototype.remove = function() {
 	return this;
 };
 
-
+String.prototype.pad = function(pad_char, pad_length, pad_right) {
+	var result = this;
+	if( (typeof pad_char === 'string') && (pad_char.length === 1) && (pad_length > this.length) )
+	{
+		var padding = new Array(pad_length - this.length + 1).join(pad_char);
+		result = (pad_right ? result + padding : padding + result);
+	}
+	return result;
+}
