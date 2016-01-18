@@ -1,0 +1,8 @@
+[Service]
+ExecStart=/usr/local/bin/node /home/hackzog/hackzog.js
+Restart=always
+User=hackzog
+Group=hackzog
+
+[Install]
+WantedBy=multi-user.target
