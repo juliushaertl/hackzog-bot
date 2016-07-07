@@ -1,14 +1,16 @@
 {
-	"name": "hackzog-bot",
-	"version": "0.0.1",
-	"description": "IRC bot for #hackzogtumCoburg",
-	"repository": "git@github.com:juliushaertl/hackzog-bot.git",
-	"dependencies": {
-		"irc": ">=0.3.9",
-		"nickserv": ">=0.4.0",
-		"redis": ">=0.12.1",
-		"request": ">=0.1",
-        "moment": ">=2.10.3",
-        "node-schedule": ">=0.2.9"
-	}
+  "name": "hackzog-bot",
+  "version": "0.0.1",
+  "description": "IRC bot for #hackzogtumCoburg",
+  "repository": "git@github.com:juliushaertl/hackzog-bot.git",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "irc": ">=0.3.9",
+    "moment": ">=2.10.3",
+    "nickserv": ">=0.4.0",
+    "node-schedule": ">=0.2.9",
+    "redis": ">=0.12.1",
+    "request": ">=0.1"
+  }
 }

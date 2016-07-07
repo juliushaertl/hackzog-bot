@@ -1,9 +1,10 @@
 var redis = require("redis");
+var bodyParser = require('body-parser')
 var client = redis.createClient();
-
 var helpers = require("../helpers");
 
 var bot = null;
+var http = null;
 
 client.on("error", function (err) {
 	console.log("[hackzog-bot] redis error " + err);
@@ -92,8 +93,31 @@ var karmaHandlerGet = function(nick, to, text, message) {
 };
 
 module.exports = {
-	register: function(b) {
+	register: function(b, h) {
 		bot = b;
+    http = h;
+    http.post('/karma', function(req, res) {
+      var data = req.body;
+      var from = data.from;
+      var to = data.to;
+      client.hkeys("hackzog-karma", function(err,object) {
+        var accepted_names = object.concat(Object.keys(bot.names()));
+        var names = text.split(" ").remove("!karma");
+        for(var i=0; i<names.length;i++) {
+          name = names[i].replace(/\:+/g, '').replace(/\ +/g, '');
+          if(!name || name.length === 0)
+            break;
+          if(accepted_names.indexOf(name) == -1) {
+            break;
+          }
+          client.hget("hackzog-karma", name, function(err, object) {
+            karma = object;
+            res.send(name + " has " + karma + " karma!");
+          });
+        }
+      });
+    });
+
 		bot.addMessageAction(function(nick, to, text, message){
 			if(text.indexOf("+1") == -1) {
 				return false;

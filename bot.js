@@ -1,6 +1,9 @@
 var irc = require("irc");
 var helpers = require("./helpers");
+var express = require("express");
+var bodyParser = bodyParser = require('body-parser');
 var bot;
+var http = express();
 var users = [];
 var plugin_actions = [];
 var plugins = {};
@@ -20,6 +23,13 @@ module.exports = {
 	// Connect to IRC server and identify with NickServ
 	connect: function() {
 
+    http.listen(13375, function () {
+      console.log('[hackzog-bot] listening on port 13375');
+    });
+    http.use( bodyParser.json() );       // to support JSON-encoded bodies
+    http.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+      extended: true
+    }));
 		bot = new irc.Client(this.config.server, this.config.user, {
 			channels: [this.config.channel],
 			showErrors: true,
@@ -63,7 +73,7 @@ module.exports = {
 		for(var i = 0, len = plugins_load.length; i < len; i++) {
 			var name = plugins_load[i];
 			plugins[name] = require('./plugins/'+name);
-			plugins[name].register(this);
+			plugins[name].register(this, http);
 			console.log("[hackzog-bot] load plugin " + name);
 		}
 
